@@ -1,0 +1,109 @@
+---
+title: "FML assignment 1"
+author: "Ritika"
+date: "2023-09-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+#data_source:https://www.kaggle.com/datasets/gregorut/videogamesales
+#importing dataset
+vgsales <- read.csv("C:/Users/User/Desktop/vgsales.csv")
+head(vgsales)
+
+```
+```{r}
+#entire strucrure of dataset
+str(vgsales)
+```
+```{r}
+#Finding Number of NA's in the vgsales Dataset column wise
+missing_values_column_wise <- colSums(is.na(vgsales))
+missing_values_column_wise
+
+```
+
+```{r}
+#total categorical variables:5, total numerical variables:6
+
+```
+
+
+```{r}
+#summary of quatitative variables including mean,median.
+mean(vgsales$NA_Sales)
+median(vgsales$NA_Sales)
+
+```
+
+```{r}
+#dimensions of the dataset
+dim(vgsales)
+
+```
+```{r}
+# Number of NA's in the vgsales column wise
+missing_values_column_wise <- colSums(is.na(vgsales))
+missing_values_column_wise
+```
+```{r}
+#there are no missing values in my dataset
+```
+```{r}
+#changing character variables "Genre" to numeric variable
+Genre_transformation=as.factor(vgsales$Genre)
+class(Genre_transformation) 
+genre_numerical<-unclass(Genre_transformation) 
+#Character to Numerical Transformation
+class(genre_numerical)
+#displaying the class of transformed variable
+```
+
+```{r}
+#Old Variable table
+table(vgsales$Genre)
+
+#New Variable table 
+table(genre_numerical)
+
+#Tranformation of Categorical to Numerical variable completed
+```
+```{r}
+# Remove rows with missing values in Global_Sales or Year
+vgsales <- vgsales[complete.cases(vgsales$Global_Sales, vgsales$Year), ]
+
+# Convert Global_Sales to numeric (if needed)
+vgsales$Global_Sales <- as.numeric(as.character(vgsales$Global_Sales))
+
+# Convert Year to numeric (if needed)
+vgsales$Year <- as.numeric(as.character(vgsales$Year))
+
+# Plotting the scatter plot
+plot(vgsales$Year, vgsales$Global_Sales,
+     main = "Global Sales vs. Year",
+     xlab = "Year",
+     ylab = "Global Sales")
+
+# Adding a regression line (abline)
+abline(lm(Global_Sales ~ Year, data = vgsales), col = "red")
+```
+```{r}
+#Using transformed variable --> genre_numerical
+#Plotting top 5 Genres from the dataset
+top_5_genre <- head(sort(table(genre_numerical), decreasing = TRUE), 5)
+barplot(top_5_genre, main = "Top 5 Genres", xlab = "Genre", ylab = "Frequency", col = "blue")
+
+
+# Add a regression line (abline)
+abline(lm(Global_Sales ~ Year, data = vgsales), col = "red")
+#1->Action 3316
+#11->sports 2346
+#4 ->misc 1739
+#8 ->roleplaying 1488
+#9 ->shooter 1310
+
+
+```
